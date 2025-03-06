@@ -1,11 +1,11 @@
 package main
 
 import (
-	"awesomeProject/Kafka-Project/Kafka/models"
 	"encoding/json"
 	"errors"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/go-chi/chi/v5"
+	"go-kafka-postgres/Kafka-Project/consumer"
 	"log"
 	"net/http"
 	"time"
@@ -34,7 +34,7 @@ func NewConsumer() (*Consumer, error) {
 }
 
 func (c *Consumer) Get(w http.ResponseWriter, r *http.Request) {
-	messages := make([]models.User, 0)
+	messages := make([]consumer.User, 0)
 	timeout := 5 * time.Second
 
 	for {
@@ -49,7 +49,7 @@ func (c *Consumer) Get(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		var user models.User
+		var user consumer.User
 		if err := json.Unmarshal(msg.Value, &user); err != nil {
 			continue
 		}

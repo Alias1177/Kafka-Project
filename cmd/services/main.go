@@ -2,11 +2,12 @@
 package main
 
 import (
-	"awesomeProject/Kafka-Project/Kafka/models"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"github.com/go-chi/chi/v5"
+	"go-kafka-postgres/Kafka-Project/consumer"
 	"log"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
 	defer producer.Close()
 
 	r := chi.NewRouter()
-	handler := models.NewUser(producer)
+	handler := consumer.NewUser(producer)
 
 	r.Post("/users", handler.Post)
 	log.Fatal(http.ListenAndServe(":8080", r))
