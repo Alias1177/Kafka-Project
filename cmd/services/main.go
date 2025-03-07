@@ -3,11 +3,10 @@ package main
 
 import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"go-kafka-postgres/Kafka-Project/consumer"
+	"github.com/go-chi/chi/v5"
+	"go-kafka-postgres/consumer"
 	"log"
 	"net/http"
-
-	"github.com/go-chi/chi/v5"
 )
 
 func main() {
