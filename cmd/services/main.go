@@ -4,6 +4,7 @@ package main
 import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 	"go-kafka-postgres/consumer"
 	"log"
 	"net/http"
@@ -21,6 +22,14 @@ func main() {
 	defer producer.Close()
 
 	r := chi.NewRouter()
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Content-Type"},
+		AllowCredentials: false,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	}))
+
 	handler := consumer.NewUser(producer)
 
 	r.Post("/users", handler.Post)
